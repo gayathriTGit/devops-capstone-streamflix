@@ -18,7 +18,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: streamflix-metrics
-          image: gayathritdocker/streamflix-deployment-metrics:1.0
+          image: gayathritdocker/streamflix-deploy-metrics:1.0
           imagePullPolicy: IfNotPresent
           ports: [ { name: http, containerPort: 3000 } ]
           env:
