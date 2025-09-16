@@ -4,7 +4,7 @@ metadata:
   name: streamflix-nginx
   labels: { app: streamflix-nginx }
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels: { app: streamflix-nginx }
   template:
