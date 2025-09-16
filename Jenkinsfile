@@ -62,7 +62,8 @@ pipeline {
               --severity CRITICAL,HIGH --ignore-unfixed --exit-code 1 \
               --format sarif -o trivy-image-metrics.sarif "$IMAGE_METRICS":${TAG} || true
 
-            docker push ${IMAGE}:${TAG}
+            docker push ${IMAGE_NGINX}:${TAG}
+            docker push ${IMAGE_METRICS}:${TAG}
           '''
         }
       }
