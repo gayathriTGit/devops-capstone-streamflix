@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: streamflix-nginx
-          image: gayathritdocker/streamflix-deployment-nginx:1.0
+          image: gayathritdocker/streamflix-deploy-nginx:1.0
           imagePullPolicy: IfNotPresent
           command: ["/usr/sbin/nginx"]
           args: ["-g","daemon off;"]
