@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamflix-nginx
+  labels: { app: streamflix-nginx }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: streamflix-nginx }
+  template:
+    metadata:
+      labels: { app: streamflix-nginx }
+    spec:
+      containers:
+        - name: streamflix-nginx
+          image: gayathritdocker/streamflix-deployment-nginx:1.0
+          imagePullPolicy: IfNotPresent
+          command: ["nginx"]
+          args: ["-g","daemon off;"]
+          ports: [ { name: http, containerPort: 80 } ]
+          startupProbe:
+            httpGet: { path: /, port: 80 }
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 6
+          livenessProbe:
+            httpGet: { path: /, port: 80 }
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+          resources:
+            requests: { cpu: "50m", memory: "64Mi" }
+            limits:   { cpu: "300m", memory: "256Mi" }

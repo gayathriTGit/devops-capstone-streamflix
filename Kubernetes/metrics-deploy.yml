@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamflix-metrics
+  labels: { app: streamflix-metrics }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: streamflix-metrics }
+  template:
+    metadata:
+      labels: { app: streamflix-metrics }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: streamflix-metrics
+          image: gayathritdocker/streamflix-deployment-metrics:1.0
+          imagePullPolicy: IfNotPresent
+          ports: [ { name: http, containerPort: 3000 } ]
+          env:
+            - { name: NODE_ENV, value: "production" }
+            - { name: PORT, value: "3000" }
+            # keep V8 heap under limit to avoid OOM (137)
+            - { name: NODE_OPTIONS, value: "--max-old-space-size=384" }
+          # give it time to boot first
+          startupProbe:
+            httpGet: { path: /healthz, port: 3000 }
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            failureThreshold: 60   # ~5 min max warmup
+          readinessProbe:
+            httpGet: { path: /healthz, port: 3000 }
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 6
+          # don’t start liveness until it’s really ready
+          livenessProbe:
+            httpGet: { path: /healthz, port: 3000 }
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+          resources:
+            requests: { cpu: "200m", memory: "256Mi" }
+            limits:   { cpu: "500m", memory: "1Gi" }
+
