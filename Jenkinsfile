@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NGINX = "gayathritdocker/streamflix-deployment-nginx"
-        IMAGE_METRICS = "gayathritdocker/streamflix-deployment-metrics"
+        IMAGE_NGINX = "gayathritdocker/streamflix-deploy-nginx"
+        IMAGE_METRICS = "gayathritdocker/streamflix-deploy-metrics"
         TAG   = "1.0" // or "${env.BUILD_NUMBER}"
       }
     stages {
