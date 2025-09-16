@@ -14,6 +14,7 @@ pipeline {
       }
 
       stage('Docker login') {
+        agent { label 'docker' }   // runs on the docker host
         steps {
           withCredentials([usernamePassword(
             credentialsId: 'DOCKER_HUB_CREDENTIALS',
@@ -39,6 +40,7 @@ pipeline {
         }
       }
       stage('Build') {
+        agent { label 'docker' }   // runs on the docker host  
         steps {
           sh '''
             docker version
@@ -50,6 +52,7 @@ pipeline {
       }
 
       stage('Trivy scan image and Push Docker Image') {
+        agent { label 'docker' }   // runs on the docker host
         steps {
           sh '''
             trivy image --no-progress \
