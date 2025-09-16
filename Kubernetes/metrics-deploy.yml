@@ -4,7 +4,7 @@ metadata:
   name: streamflix-metrics
   labels: { app: streamflix-metrics }
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels: { app: streamflix-metrics }
   template:
