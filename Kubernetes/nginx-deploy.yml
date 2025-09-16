@@ -15,7 +15,7 @@ spec:
         - name: streamflix-nginx
           image: gayathritdocker/streamflix-deployment-nginx:1.0
           imagePullPolicy: IfNotPresent
-          command: ["nginx"]
+          command: ["/usr/sbin/nginx"]
           args: ["-g","daemon off;"]
           ports: [ { name: http, containerPort: 80 } ]
           startupProbe:
