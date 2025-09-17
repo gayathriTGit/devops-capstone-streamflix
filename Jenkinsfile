@@ -82,7 +82,8 @@ pipeline {
      }
 
       stage('OWASP baseline scan for http://13.222.10.181:30007/') {
-        steps {
+         agent { label 'docker' }   // runs on the docker host
+         steps {
           sh '''
             # Run ZAP baseline w/ proper mount + uid/gid
             set -e
